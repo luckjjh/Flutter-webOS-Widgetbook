@@ -629,7 +629,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
 
     await _decelerate();
 
-    _roundCounter++;
+    _roundCounter=1;
 
     if (!_running || !mounted) return;
 
@@ -699,7 +699,6 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(_roundCounter);
     _initialize(context);
     bool isHorizontal = widget.scrollAxis == Axis.horizontal;
 

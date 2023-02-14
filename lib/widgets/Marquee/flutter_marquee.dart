@@ -7,7 +7,7 @@ class FlutterMarquee extends StatefulWidget {
     super.key,
     required this.children,
     required this.style,
-    required this.marqueeOn,
+    this.marqueeOn = 'render',
     this.alignment = 'left',
     this.forceDirection = 'ltr',
     this.marqueeDelay = 1,
@@ -15,6 +15,7 @@ class FlutterMarquee extends StatefulWidget {
     this.marqueeResetDelay = 1,
     this.marqueeSpeed = 60,
     this.scrollAxis = 'horizontal',
+    this.width,
   });
 
   final String children;
@@ -27,51 +28,19 @@ class FlutterMarquee extends StatefulWidget {
   final int marqueeResetDelay;
   final double marqueeSpeed;
   final String scrollAxis;
+  final double? width;
   @override
   State<FlutterMarquee> createState() => _FlutterMarqueeState();
 }
 
 class _FlutterMarqueeState extends State<FlutterMarquee> {
-  bool _isFocus = false;
-  bool _isHover = false;
+  bool _fcshvred = false;
   bool _isMarqueeOn = false;
+  late bool _isOverflow;
 
-  void isHovering() {
-    Timer(
-        Duration(seconds: widget.marqueeDelay),
-        () => {
-              if (_isHover || _isFocus)
-                {
-                  setState(() {
-                    _isMarqueeOn = true;
-                  })
-                }
-            });
-  }
-
-  void onHover(PointerEvent details) {
-    setState(() {
-      _isMarqueeOn = false;
-    });
-    print('enter');
-    _isHover = true;
-    isHovering();
-  }
-
-  void outHover(PointerEvent details) {
-    setState(() {
-      _isMarqueeOn = false;
-    });
-    print('exit');
-    _isHover = false;
-  }
-
-  void setFocus() {
-    setState(() {
-      _isMarqueeOn = false;
-    });
-    _isFocus = !_isFocus;
-    isHovering();
+  @override
+  void initState() {
+    super.initState();
   }
 
   double getBlankSpace(String text, TextStyle style) {
@@ -80,74 +49,103 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.marqueeOn == 'render') {
-      return buildRenderMarquee();
+    double width = widget.width ?? MediaQuery.of(context).size.width;
+    _isOverflow = TextLayoutHelper.hasTextOverflow(
+        text: widget.children, style: widget.style, maxWidth: width);
+    if (_isOverflow) {
+      if (widget.marqueeOn == 'render') {
+        return buildRenderMarquee();
+      }
+      return buildHoverMarquee();
     }
     return buildHoverMarquee();
   }
 
   Widget buildHoverMarquee() {
-    if (_isMarqueeOn) {
+    if (_isMarqueeOn && _isOverflow) {
       return buildRenderMarquee();
     } else {
-      return Focus(
-        child: MouseRegion(
-          onEnter: onHover,
-          onExit: outHover,
+      return GestureDetector(
+        child: FocusableActionDetector(
+          onShowHoverHighlight: _handleHover,
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Container(
               height: 25,
-              color: _isHover || _isFocus ? Colors.blue : Colors.transparent,
+              width: widget.width,
+              color: Colors.transparent,
+              alignment: widget.alignment == 'left'
+                  ? Alignment.topLeft
+                  : widget.alignment == 'right'
+                      ? Alignment.topRight
+                      : Alignment.topCenter,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    textAlign:widget.alignment=='left'?TextAlign.left:TextAlign.right,
                     widget.children,
                     style: widget.style,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    textDirection: widget.forceDirection=='ltr'?TextDirection.ltr:TextDirection.rtl,
+                    textDirection: widget.forceDirection == 'ltr'
+                        ? TextDirection.ltr
+                        : TextDirection.rtl,
                   ),
                 ],
               ),
             ),
           ),
         ),
-        onFocusChange: (focused) {
-          setFocus();
-        },
       );
     }
   }
 
   Widget buildRenderMarquee() {
-    return Focus(
-      child: MouseRegion(
-        onEnter: onHover,
-        onExit: outHover,
-        child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: Container(
-            height: 25,
-            color: _isHover || _isFocus ? Colors.blue : Colors.transparent,
-            child: Marquee(
-              text: widget.children,
-              velocity: widget.marqueeSpeed,
-              blankSpace: getBlankSpace(widget.children, widget.style),
-              pauseAfterRound: Duration(seconds: widget.marqueeResetDelay),
-              startAfter: Duration(seconds: widget.marqueeDelay),
-              style: widget.style,
-              textDirection: widget.forceDirection=='ltr'?TextDirection.ltr:TextDirection.rtl,
-            ),
+    return GestureDetector(
+        child: FocusableActionDetector(
+      onShowHoverHighlight: _handleHover,
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: Container(
+          height: 25,
+          width: widget.width,
+          color: Colors.transparent,
+          child: Marquee(
+            text: widget.children,
+            velocity: widget.marqueeSpeed,
+            blankSpace: getBlankSpace(widget.children, widget.style),
+            startAfter: widget.marqueeOn == 'render'
+                ? Duration(seconds: widget.marqueeDelay)
+                : const Duration(seconds: 0),
+            pauseAfterRound: Duration(seconds: widget.marqueeResetDelay),
+            style: widget.style,
+            textDirection: widget.forceDirection == 'ltr'
+                ? TextDirection.ltr
+                : TextDirection.rtl,
           ),
         ),
       ),
-      onFocusChange: (focused) {
-        setFocus();
-      },
-    );
+    ));
+  }
+
+  void _handleHover(bool value) {
+    setState(() {
+      _fcshvred = value;
+    });
+    if (value) {
+      Timer(
+          Duration(seconds: widget.marqueeDelay),
+          () => {
+                setState(() {
+                  if (_fcshvred) {
+                    _isMarqueeOn = true;
+                  }
+                })
+              });
+    } else {
+      setState(() {
+        _isMarqueeOn = false;
+      });
+    }
   }
 }
 
