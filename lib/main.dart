@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
-
+import 'widgets/FocusableWidget/focusable_widget.dart';
 
 void main() {
   runApp(const HotreloadWidgetbook());
@@ -23,21 +23,39 @@ class HotreloadWidgetbook extends StatelessWidget {
         WidgetbookCategory(
           name: 'widgets',
           widgets: [
-            WidgetbookComponent(
-              name: 'Button',
-              useCases: [
-                WidgetbookUseCase(
-                  name: 'example',
-                  builder: (context) => ElevatedButton(
-                    onPressed: () {},
-                    child: Text(context.knobs.text(
-                      label: 'Children',
-                      initialValue: 'Example Button',
-                    )),
-                  ),
+            WidgetbookComponent(name: 'Button', useCases: [
+              WidgetbookUseCase(
+                name: 'example',
+                builder: (context) => ElevatedButton(
+                  onPressed: () {},
+                  child: Text(context.knobs.text(
+                    label: 'Children',
+                    initialValue: 'Example Button',
+                  )),
                 ),
-              ]
-            )
+              ),
+            ]),
+            WidgetbookComponent(name: 'Focusable Widget', useCases: [
+              WidgetbookUseCase(
+                name: 'default',
+                builder: (context) => FocusableWidget(
+                  animaterable: context.knobs.boolean(
+                    label: 'animaterable',
+                    initialValue: true
+                    ),
+                  backgroundOpacity: context.knobs.options(
+                    label: 'backgroundOpacity',
+                    options: const [
+                      Option(label: 'opaque', value: 'opaque'),
+                      Option(label: 'transparent', value: 'transparent'),
+                    ]),
+                  child: Text(context.knobs.text(
+                    label: 'child',
+                    initialValue: '',
+                  )),
+                ),
+              ),
+            ])
           ],
         )
       ],
