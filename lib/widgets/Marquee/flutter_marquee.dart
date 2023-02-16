@@ -53,28 +53,38 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
   Widget build(BuildContext context) {
     _isOverflow = TextLayoutHelper.hasTextOverflow(
         text: widget.children, style: widget.style, maxWidth: widget.width);
-    if (_isOverflow && widget.marqueeOn == 'render') {
-      return buildRenderMarquee();
-    }
-    return buildHoverMarquee();
+    return buildMarquee();
   }
 
-  Widget buildHoverMarquee() {
-    final textWidth = _calculateTextWidth(
-        widget.children.replaceAll("\n", " "), widget.style);
-    if (_isMarqueeOn && _isOverflow) {
-      return buildRenderMarquee();
-    } else {
-      return GestureDetector(
-        child: FocusableActionDetector(
-          onShowHoverHighlight: _handleHover,
-          child: Container(
-            height: 25,
-            width: widget.isButton? textWidth:widget.width,
-            color: Colors.transparent,
-            alignment: Alignment.center,
-            child: Text(
-              widget.children,
+
+  Widget buildMarquee(){
+    final textWidth = _calculateTextWidth(widget.children, widget.style);
+    return GestureDetector(
+      child: FocusableActionDetector(
+        onShowHoverHighlight: _handleHover,
+        onShowFocusHighlight: _handleHover,
+        child: Container(
+          height: 25,
+          width: widget.isButton ? textWidth : widget.width,
+          color: Colors.transparent,
+          alignment: Alignment.centerLeft,
+          child: widget.marqueeOn=="render"||(_isMarqueeOn && _isOverflow)?
+            Marquee(
+              text: widget.children.replaceAll('', '\u200B'),
+              velocity: widget.marqueeSpeed,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              blankSpace: getBlankSpace(widget.children, widget.style),
+              startAfter: widget.marqueeOn == 'render'
+                  ? Duration(seconds: widget.marqueeDelay)
+                  : const Duration(milliseconds: 300),
+              pauseAfterRound: Duration(seconds: widget.marqueeResetDelay),
+              style: widget.style,
+              textDirection: widget.forceDirection == 'ltr'
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
+            )
+            :Text(
+              widget.children.replaceAll('', '\u200B'),
               style: widget.style,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -87,34 +97,6 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
                       ? TextAlign.right
                       : TextAlign.center,
             ),
-          ),
-        ),
-      );
-    }
-  }
-
-  Widget buildRenderMarquee() {
-    return GestureDetector(
-      child: FocusableActionDetector(
-        onShowHoverHighlight: _handleHover,
-        child: Container(
-          height: 25,
-          width: widget.width,
-          color: Colors.transparent,
-          child: Marquee(
-            text: widget.children,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            velocity: widget.marqueeSpeed,
-            blankSpace: getBlankSpace(widget.children, widget.style),
-            startAfter: widget.marqueeOn == 'render'
-                ? Duration(seconds: widget.marqueeDelay)
-                : Duration.zero,
-            pauseAfterRound: Duration(seconds: widget.marqueeResetDelay),
-            style: widget.style,
-            textDirection: widget.forceDirection == 'ltr'
-                ? TextDirection.ltr
-                : TextDirection.rtl,
-          ),
         ),
       ),
     );
@@ -142,11 +124,11 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
   }
 
   double _calculateTextWidth(String text, TextStyle style) {
-    final TextPainter textPainter =
-        TextPainter(textDirection: TextDirection.ltr)
-          ..text = TextSpan(text: text, style: style)
-          ..layout();
-
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
     return textPainter.width;
   }
 }

@@ -145,6 +145,7 @@ class Marquee extends StatefulWidget {
         this.accelerationCurve = _IntegralCurve(accelerationCurve),
         this.decelerationCurve = _IntegralCurve(decelerationCurve);
 
+
   /// The text to be displayed.
   ///
   /// See also:
@@ -629,7 +630,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
 
     await _decelerate();
 
-    _roundCounter=1;
+    _roundCounter = 1;
 
     if (!_running || !mounted) return;
 

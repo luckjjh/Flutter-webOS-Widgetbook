@@ -56,7 +56,7 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
             fontWeight: FontWeight.bold,
           ),
           marqueeOn: 'hover',
-          alignment: 'center',
+          alignment: 'left',
           isButton: true,
         ),
       ),

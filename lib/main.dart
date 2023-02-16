@@ -28,28 +28,38 @@ class HotreloadWidgetbook extends StatelessWidget {
             WidgetbookComponent(name: 'Button', useCases: [
               WidgetbookUseCase(
                 name: 'default',
-                builder: (context) => Button(
-                  backgroundOpacity: context.knobs
-                      .options(label: 'backgroundOpacity', options: const [
-                    Option(label: 'opaque', value: 'opaque'),
-                    Option(label: 'transparent', value: 'transparent'),
-                  ]),
-                  selected: context.knobs
-                      .boolean(label: 'selected', initialValue: false),
-                  children: context.knobs
-                      .text(label: 'children', initialValue: 'Click me!'),
-                  color: context.knobs.text(label: 'color', initialValue: ''),
-                  disabled: context.knobs.boolean(label: 'disabled',initialValue: false),
-                  icon: context.knobs.text(label: 'icon', initialValue: ''),
-                  minWidth: context.knobs.boolean(label: 'minWidth',initialValue: true),
-                  size:  context.knobs
-                      .options(label: 'size', options: const [
-                    Option(label: 'large', value: 'large'),
-                    Option(label: 'small', value: 'small'),
-                  ]),
-                  tooltipText: context.knobs.text(label: 'tooltipText', initialValue: ''),
-                  tooltipType: context.knobs.text(label: 'tooltipType', initialValue: ''),
-                ),
+                builder: (context) => Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Button(
+                        backgroundOpacity: context.knobs
+                            .options(label: 'backgroundOpacity', options: const [
+                          Option(label: 'opaque', value: 'opaque'),
+                          Option(label: 'transparent', value: 'transparent'),
+                        ]),
+                        selected: context.knobs
+                            .boolean(label: 'selected', initialValue: false),
+                        children: context.knobs
+                            .text(label: 'children', initialValue: 'Click me!'),
+                        color: context.knobs.text(label: 'color', initialValue: ''),
+                        disabled: context.knobs.boolean(label: 'disabled',initialValue: false),
+                        icon: context.knobs.text(label: 'icon', initialValue: ''),
+                        minWidth: context.knobs.boolean(label: 'minWidth',initialValue: true),
+                        size:  context.knobs
+                            .options(label: 'size', options: const [
+                          Option(label: 'large', value: 'large'),
+                          Option(label: 'small', value: 'small'),
+                        ]),
+                        tooltipText: context.knobs.text(label: 'tooltipText', initialValue: ''),
+                        tooltipType: context.knobs.text(label: 'tooltipType', initialValue: ''),
+                      ),
+                      Button(
+                        children: 'helloasd asdasdasdasda@a@aaasdas',
+                      )
+                    ],
+                  ),)
+
               ),
             ]),
             WidgetbookComponent(name: 'Focusable Widget', useCases: [
