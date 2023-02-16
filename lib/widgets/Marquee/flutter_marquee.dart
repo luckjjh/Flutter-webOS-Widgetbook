@@ -15,7 +15,8 @@ class FlutterMarquee extends StatefulWidget {
     this.marqueeResetDelay = 1,
     this.marqueeSpeed = 60,
     this.scrollAxis = 'horizontal',
-    this.width=390,
+    this.width = 390,
+    this.isButton = false,
   });
 
   final String children;
@@ -29,6 +30,7 @@ class FlutterMarquee extends StatefulWidget {
   final double marqueeSpeed;
   final String scrollAxis;
   final double width;
+  final bool isButton;
   @override
   State<FlutterMarquee> createState() => _FlutterMarqueeState();
 }
@@ -49,15 +51,10 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
 
   @override
   Widget build(BuildContext context) {
-    double width = _calculateTextWidth(
-        widget.children.replaceAll("\n", " "), widget.style);
     _isOverflow = TextLayoutHelper.hasTextOverflow(
         text: widget.children, style: widget.style, maxWidth: widget.width);
-    if (_isOverflow) {
-      if (widget.marqueeOn == 'render') {
-        return buildRenderMarquee();
-      }
-      return buildHoverMarquee();
+    if (_isOverflow && widget.marqueeOn == 'render') {
+      return buildRenderMarquee();
     }
     return buildHoverMarquee();
   }
@@ -73,23 +70,23 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
           onShowHoverHighlight: _handleHover,
           child: Container(
             height: 25,
-            width: textWidth,
+            width: widget.isButton? textWidth:widget.width,
             color: Colors.transparent,
             alignment: Alignment.center,
-            child:
-              Text(
-                widget.children,
-                style: widget.style,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                textDirection: widget.forceDirection == 'ltr'
-                    ? TextDirection.ltr
-                    : TextDirection.rtl,
-                textAlign: widget.alignment=='left'
-                  ?TextAlign.left:
-                  widget.alignment=='right'?
-                  TextAlign.right:TextAlign.center,
-              ),
+            child: Text(
+              widget.children,
+              style: widget.style,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              textDirection: widget.forceDirection == 'ltr'
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
+              textAlign: widget.alignment == 'left'
+                  ? TextAlign.left
+                  : widget.alignment == 'right'
+                      ? TextAlign.right
+                      : TextAlign.center,
+            ),
           ),
         ),
       );
@@ -98,9 +95,9 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
 
   Widget buildRenderMarquee() {
     return GestureDetector(
-        child: FocusableActionDetector(
-      onShowHoverHighlight: _handleHover,
-      child: Container(
+      child: FocusableActionDetector(
+        onShowHoverHighlight: _handleHover,
+        child: Container(
           height: 25,
           width: widget.width,
           color: Colors.transparent,

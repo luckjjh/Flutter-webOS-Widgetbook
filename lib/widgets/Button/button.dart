@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import '../FocusableWidget/focusable_widget.dart';
-
+import '../Marquee/flutter_marquee.dart';
 
 class Button extends StatefulWidget {
-  const Button({
-    super.key,
-    this.backgroundOpacity = 'opaque',
-    this.selected = false,
-    this.children = 'click me',
-    this.color = '',
-    this.disabled = false,
-    this.icon = '',
-    this.minWidth = true,
-    this.size = 'large',
-    this.tooltipText = '',
-    this.tooltipType = '',
-    this.onClick
-  });
+  const Button(
+      {super.key,
+      this.backgroundOpacity = 'opaque',
+      this.selected = false,
+      this.children = 'click me',
+      this.color = '',
+      this.disabled = false,
+      this.icon = '',
+      this.minWidth = true,
+      this.size = 'large',
+      this.tooltipText = '',
+      this.tooltipType = '',
+      this.onClick});
   final String backgroundOpacity;
   final String color;
   final bool disabled;
@@ -41,17 +40,24 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
     return FocusableWidget(
       onFocus: _onFocus,
       onClick: widget.onClick,
+      minWidth: widget.minWidth,
       backgroundOpacity: widget.backgroundOpacity,
       child: Tooltip(
         message: widget.tooltipText,
-        child: Text(
-          widget.children,
+        child: FlutterMarquee(
+          children: widget.children,
           style: TextStyle(
-              fontSize: 30, color: _textColor, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
+            fontSize: 30,
+            color: _textColor,
+            fontWeight: FontWeight.bold,
+          ),
+          marqueeOn: 'hover',
+          alignment: 'center',
+          isButton: true,
         ),
       ),
     );
