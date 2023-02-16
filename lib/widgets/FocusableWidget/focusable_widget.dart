@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class FocusableWidget extends StatefulWidget {
-  const FocusableWidget(
-      {super.key,
-      this.backgroundOpacity = 'opaque',
-      this.animaterable = true,
-      required this.child,
-      this.onFocus,
-      this.onClick});
+  const FocusableWidget({
+    super.key,
+    this.backgroundOpacity = 'opaque',
+    this.animaterable = true,
+    required this.child,
+    this.minWidth = true,
+    this.onFocus,
+    this.onClick,
+  });
 
   final bool animaterable;
   final Widget child;
+  final bool minWidth;
   final String backgroundOpacity;
   final Function? onFocus;
   final VoidCallback? onClick;
@@ -75,45 +78,40 @@ class _FocusableWidgetWidgetState extends State<FocusableWidget>
     _scale = _controller.value;
     if (widget.animaterable) {
       return GestureDetector(
-          onTapDown: _tapDown,
-          onTapUp: _tapUp,
-          child: FocusableActionDetector(
-              focusNode: _node,
-              onShowHoverHighlight: _handleFocus,
-              onShowFocusHighlight: _handleFocus,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Transform.scale(
-                    scale: _scale,
-                    child: _animateButtonBox(),
-                  ),
-                  widget.child,
-                ],
-              )));
+        onTapDown: _tapDown,
+        onTapUp: _tapUp,
+        child: FocusableActionDetector(
+          focusNode: _node,
+          onShowHoverHighlight: _handleFocus,
+          onShowFocusHighlight: _handleFocus,
+          child: Transform.scale(
+            scale: _scale,
+            child: _animateButtonBox(),
+          ),
+        ),
+      );
     }
     return GestureDetector(
-        child: FocusableActionDetector(
-            focusNode: _node,
-            onShowHoverHighlight: _handleFocus,
-            onShowFocusHighlight: _handleFocus,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                _animateButtonBox(),
-                widget.child,
-              ],
-            )));
+      child: FocusableActionDetector(
+        focusNode: _node,
+        onShowHoverHighlight: _handleFocus,
+        onShowFocusHighlight: _handleFocus,
+        child: _animateButtonBox(),
+      ),
+    );
   }
 
   Widget _animateButtonBox() {
     return Container(
-      constraints: const BoxConstraints(
-        maxHeight: 70,
-        maxWidth: 270,
+      height: 54,
+      padding: const EdgeInsets.only(left: 24,right: 24),
+      constraints: BoxConstraints(
+        maxWidth: 450,
+        minWidth: widget.minWidth ? 150 : 54,
       ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0), color: getBaseBgColor()),
+      child: widget.child,
     );
   }
 

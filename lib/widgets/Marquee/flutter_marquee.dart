@@ -15,7 +15,7 @@ class FlutterMarquee extends StatefulWidget {
     this.marqueeResetDelay = 1,
     this.marqueeSpeed = 60,
     this.scrollAxis = 'horizontal',
-    this.width,
+    this.width=390,
   });
 
   final String children;
@@ -28,7 +28,7 @@ class FlutterMarquee extends StatefulWidget {
   final int marqueeResetDelay;
   final double marqueeSpeed;
   final String scrollAxis;
-  final double? width;
+  final double width;
   @override
   State<FlutterMarquee> createState() => _FlutterMarqueeState();
 }
@@ -49,9 +49,10 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
 
   @override
   Widget build(BuildContext context) {
-    double width = widget.width ?? MediaQuery.of(context).size.width;
+    double width = _calculateTextWidth(
+        widget.children.replaceAll("\n", " "), widget.style);
     _isOverflow = TextLayoutHelper.hasTextOverflow(
-        text: widget.children, style: widget.style, maxWidth: width);
+        text: widget.children, style: widget.style, maxWidth: widget.width);
     if (_isOverflow) {
       if (widget.marqueeOn == 'render') {
         return buildRenderMarquee();
@@ -62,37 +63,33 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
   }
 
   Widget buildHoverMarquee() {
+    final textWidth = _calculateTextWidth(
+        widget.children.replaceAll("\n", " "), widget.style);
     if (_isMarqueeOn && _isOverflow) {
       return buildRenderMarquee();
     } else {
       return GestureDetector(
         child: FocusableActionDetector(
           onShowHoverHighlight: _handleHover,
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: Container(
-              height: 25,
-              width: widget.width,
-              color: Colors.transparent,
-              alignment: widget.alignment == 'left'
-                  ? Alignment.topLeft
-                  : widget.alignment == 'right'
-                      ? Alignment.topRight
-                      : Alignment.topCenter,
-              child: Column(
-                children: [
-                  Text(
-                    widget.children,
-                    style: widget.style,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    textDirection: widget.forceDirection == 'ltr'
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                  ),
-                ],
+          child: Container(
+            height: 25,
+            width: textWidth,
+            color: Colors.transparent,
+            alignment: Alignment.center,
+            child:
+              Text(
+                widget.children,
+                style: widget.style,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                textDirection: widget.forceDirection == 'ltr'
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                textAlign: widget.alignment=='left'
+                  ?TextAlign.left:
+                  widget.alignment=='right'?
+                  TextAlign.right:TextAlign.center,
               ),
-            ),
           ),
         ),
       );
@@ -103,9 +100,7 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
     return GestureDetector(
         child: FocusableActionDetector(
       onShowHoverHighlight: _handleHover,
-      child: Padding(
-        padding: const EdgeInsets.all(5),
-        child: Container(
+      child: Container(
           height: 25,
           width: widget.width,
           color: Colors.transparent,
@@ -124,7 +119,7 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
           ),
         ),
       ),
-    ));
+    );
   }
 
   void _handleHover(bool value) {
@@ -146,6 +141,15 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
         _isMarqueeOn = false;
       });
     }
+  }
+
+  double _calculateTextWidth(String text, TextStyle style) {
+    final TextPainter textPainter =
+        TextPainter(textDirection: TextDirection.ltr)
+          ..text = TextSpan(text: text, style: style)
+          ..layout();
+
+    return textPainter.width;
   }
 }
 
