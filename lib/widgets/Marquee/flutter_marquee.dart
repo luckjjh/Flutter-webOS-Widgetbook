@@ -103,11 +103,12 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
           color: Colors.transparent,
           child: Marquee(
             text: widget.children,
+            crossAxisAlignment: CrossAxisAlignment.center,
             velocity: widget.marqueeSpeed,
             blankSpace: getBlankSpace(widget.children, widget.style),
             startAfter: widget.marqueeOn == 'render'
                 ? Duration(seconds: widget.marqueeDelay)
-                : const Duration(seconds: 0),
+                : Duration.zero,
             pauseAfterRound: Duration(seconds: widget.marqueeResetDelay),
             style: widget.style,
             textDirection: widget.forceDirection == 'ltr'
