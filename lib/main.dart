@@ -54,12 +54,8 @@ class HotreloadWidgetbook extends StatelessWidget {
                         tooltipText: context.knobs.text(label: 'tooltipText', initialValue: ''),
                         tooltipType: context.knobs.text(label: 'tooltipType', initialValue: ''),
                       ),
-                      Button(
-                        children: 'helloasd asdasdasdasda@a@aaasdas',
-                      )
                     ],
                   ),)
-
               ),
             ]),
             WidgetbookComponent(name: 'Focusable Widget', useCases: [
