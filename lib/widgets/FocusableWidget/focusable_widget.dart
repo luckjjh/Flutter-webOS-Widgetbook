@@ -7,14 +7,12 @@ class FocusableWidget extends StatefulWidget {
     this.backgroundOpacity = 'opaque',
     this.animaterable = true,
     required this.child,
-    this.minWidth = true,
     this.onFocus,
     this.onClick,
   });
 
   final bool animaterable;
   final Widget child;
-  final bool minWidth;
   final String backgroundOpacity;
   final Function? onFocus;
   final VoidCallback? onClick;
@@ -103,12 +101,6 @@ class _FocusableWidgetWidgetState extends State<FocusableWidget>
 
   Widget _animateButtonBox() {
     return Container(
-      height: 54,
-      padding: const EdgeInsets.only(left: 24,right: 24),
-      constraints: BoxConstraints(
-        maxWidth: 450,
-        minWidth: widget.minWidth ? 150 : 54,
-      ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0), color: getBaseBgColor()),
       child: widget.child,
@@ -117,9 +109,9 @@ class _FocusableWidgetWidgetState extends State<FocusableWidget>
 
   Color getBaseBgColor() {
     if (widget.backgroundOpacity == 'opaque') {
-      return _fcshvred ? Colors.white : Colors.grey;
+      return _fcshvred ? const Color(0xfbe6e6e6) : const Color(0xfb7d848c);
     } else {
-      return _fcshvred ? Colors.white : Colors.transparent;
+      return _fcshvred ? const Color(0xfbe6e6e6) : Colors.transparent;
     }
   }
 

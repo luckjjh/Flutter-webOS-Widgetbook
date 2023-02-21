@@ -29,10 +29,8 @@ class HotreloadWidgetbook extends StatelessWidget {
               WidgetbookUseCase(
                 name: 'default',
                 builder: (context) => Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Button(
+                  padding: const EdgeInsets.all(16),
+                  child:Button(
                         backgroundOpacity: context.knobs
                             .options(label: 'backgroundOpacity', options: const [
                           Option(label: 'opaque', value: 'opaque'),
@@ -41,10 +39,19 @@ class HotreloadWidgetbook extends StatelessWidget {
                         selected: context.knobs
                             .boolean(label: 'selected', initialValue: false),
                         children: context.knobs
-                            .text(label: 'children', initialValue: 'Click me!'),
+                            .text(label: 'children', initialValue: 'click me'),
                         color: context.knobs.text(label: 'color', initialValue: ''),
                         disabled: context.knobs.boolean(label: 'disabled',initialValue: false),
-                        icon: context.knobs.text(label: 'icon', initialValue: ''),
+                        icon: context.knobs
+                          .options(label: 'icon', options: const [
+                            Option(label: 'undefined', value: null),
+                            Option(label: 'add', value: Icons.add),
+                            Option(label: 'search', value: Icons.search),
+                            Option(label: 'home', value: Icons.home),
+                            Option(label: 'Done', value: Icons.done),
+                            Option(label: 'radio unchecked', value: Icons.radio_button_unchecked),
+                            Option(label: 'radio checked', value: Icons.check_circle_outline_rounded),
+                          ]),
                         minWidth: context.knobs.boolean(label: 'minWidth',initialValue: true),
                         size:  context.knobs
                             .options(label: 'size', options: const [
@@ -54,8 +61,7 @@ class HotreloadWidgetbook extends StatelessWidget {
                         tooltipText: context.knobs.text(label: 'tooltipText', initialValue: ''),
                         tooltipType: context.knobs.text(label: 'tooltipType', initialValue: ''),
                       ),
-                    ],
-                  ),)
+                  ),
               ),
             ]),
             WidgetbookComponent(name: 'Focusable Widget', useCases: [
@@ -163,7 +169,15 @@ class HotreloadWidgetbook extends StatelessWidget {
                   width: 300,
                 ),
               ),
-            ])
+            ]),
+            WidgetbookComponent(name: 'Icon', useCases: [
+              WidgetbookUseCase(
+                name: 'default',
+                builder: (context) => const Icon(
+                    Icons.add,
+                  )
+                ),
+            ]),
           ],
         )
       ],

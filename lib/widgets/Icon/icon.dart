@@ -6,28 +6,31 @@ class FlutterIcon extends StatelessWidget {
       required this.icon,
       this.filp,
       this.size = 'small',
-      this.sizeNum = 24});
-  final IconData icon;
+      this.sizeNum = 24,
+      this.color = Colors.white});
+  final IconData? icon;
   final String? filp;
   final String size;
   final double sizeNum;
+  final Color color;
   @override
   Widget build(BuildContext context) {
     late double curSize;
     if (size == 'small') {
-      curSize = 30;
+      curSize = 39;
     } else if (size == 'medium') {
-      curSize = 40;
+      curSize = 45;
     } else if (size == 'large') {
-      curSize = 50;
+      curSize = 54;
     } else if (size == 'tiny') {
-      curSize = 20;
+      curSize = 30;
     } else {
       curSize = sizeNum;
     }
     return Icon(
       icon,
       size: curSize,
+      color: color,
     );
   }
 }

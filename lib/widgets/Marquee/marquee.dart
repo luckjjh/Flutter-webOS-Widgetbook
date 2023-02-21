@@ -574,7 +574,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
   /// Calculates all necessary values for animating, then starts the animation.
   void _initialize(BuildContext context) {
     // Calculate lengths (amount of pixels that each phase needs).
-    final totalLength = _getTextWidth(context) + widget.blankSpace;
+    final totalLength = _calculateTextWidth(widget.text,widget.style) + widget.blankSpace;
     final accelerationLength = widget.accelerationCurve.integral *
         widget.velocity *
         _accelerationDuration.inMilliseconds /
@@ -588,7 +588,7 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
             (widget.velocity > 0 ? 1 : -1);
 
     // Calculate scroll positions at various scrolling phases.
-    _startPosition = 2 * totalLength - widget.startPadding;
+    _startPosition = 2 * totalLength;
     _accelerationTarget = _startPosition + accelerationLength;
     _linearTarget = _accelerationTarget + linearLength;
     _decelerationTarget = _linearTarget + decelerationLength;
@@ -681,21 +681,13 @@ class _MarqueeState extends State<Marquee> with SingleTickerProviderStateMixin {
   }
 
   /// Returns the width of the text.
-  double _getTextWidth(BuildContext context) {
-    final span = TextSpan(text: widget.text, style: widget.style);
-
-    final constraints = BoxConstraints(maxWidth: double.infinity);
-
-    final richTextWidget = Text.rich(span).build(context) as RichText;
-    final renderObject = richTextWidget.createRenderObject(context);
-    renderObject.layout(constraints);
-
-    final boxes = renderObject.getBoxesForSelection(TextSelection(
-      baseOffset: 0,
-      extentOffset: TextSpan(text: widget.text).toPlainText().length,
-    ));
-
-    return boxes.last.right;
+  double _calculateTextWidth(String text, TextStyle? style){
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    return textPainter.width;
   }
 
   @override

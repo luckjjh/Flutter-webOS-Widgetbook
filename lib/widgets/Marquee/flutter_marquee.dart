@@ -17,6 +17,8 @@ class FlutterMarquee extends StatefulWidget {
     this.scrollAxis = 'horizontal',
     this.width = 390,
     this.isButton = false,
+    this.maxWidth = double.infinity,
+    this.parentFocus,
   });
 
   final String children;
@@ -31,6 +33,8 @@ class FlutterMarquee extends StatefulWidget {
   final String scrollAxis;
   final double width;
   final bool isButton;
+  final double maxWidth;
+  final bool? parentFocus;
   @override
   State<FlutterMarquee> createState() => _FlutterMarqueeState();
 }
@@ -39,6 +43,7 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
   bool _fcshvred = false;
   bool _isMarqueeOn = false;
   late bool _isOverflow;
+  bool _renderMarqueeDelay = false;
 
   @override
   void initState() {
@@ -52,51 +57,62 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
   @override
   Widget build(BuildContext context) {
     _isOverflow = TextLayoutHelper.hasTextOverflow(
-        text: widget.children, style: widget.style, maxWidth: widget.width);
+        text: widget.children,
+        style: widget.style,
+        maxWidth: widget.isButton ? widget.maxWidth : widget.width);
     return buildMarquee();
   }
 
-
-  Widget buildMarquee(){
+  Widget buildMarquee() {
     final textWidth = _calculateTextWidth(widget.children, widget.style);
+    if (widget.marqueeOn == 'render') {
+      Timer(
+          Duration(seconds: widget.marqueeDelay),
+          () => {
+                setState(() {
+                  _renderMarqueeDelay = widget.parentFocus ?? true;
+                }),
+              });
+    }
     return GestureDetector(
       child: FocusableActionDetector(
         onShowHoverHighlight: _handleHover,
         onShowFocusHighlight: _handleHover,
         child: Container(
-          height: 25,
+          constraints: BoxConstraints(maxWidth: widget.maxWidth),
           width: widget.isButton ? textWidth : widget.width,
+          height: 66,
           color: Colors.transparent,
           alignment: Alignment.centerLeft,
-          child: widget.marqueeOn=="render"||(_isMarqueeOn && _isOverflow)?
-            Marquee(
-              text: widget.children.replaceAll('', '\u200B'),
-              velocity: widget.marqueeSpeed,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              blankSpace: getBlankSpace(widget.children, widget.style),
-              startAfter: widget.marqueeOn == 'render'
-                  ? Duration(seconds: widget.marqueeDelay)
-                  : const Duration(milliseconds: 300),
-              pauseAfterRound: Duration(seconds: widget.marqueeResetDelay),
-              style: widget.style,
-              textDirection: widget.forceDirection == 'ltr'
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-            )
-            :Text(
-              widget.children.replaceAll('', '\u200B'),
-              style: widget.style,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              textDirection: widget.forceDirection == 'ltr'
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-              textAlign: widget.alignment == 'left'
-                  ? TextAlign.left
-                  : widget.alignment == 'right'
-                      ? TextAlign.right
-                      : TextAlign.center,
-            ),
+          child: (widget.marqueeOn == 'render' &&
+                      _isOverflow &&
+                      _renderMarqueeDelay) ||
+                  (_isMarqueeOn && _isOverflow)
+              ? Marquee(
+                  text: widget.children,
+                  velocity: widget.marqueeSpeed,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  blankSpace: getBlankSpace(widget.children, widget.style),
+                  pauseAfterRound: Duration(seconds: widget.marqueeResetDelay),
+                  style: widget.style,
+                  textDirection: widget.forceDirection == 'ltr'
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
+                )
+              : Text(
+                  widget.children.replaceAll('', '\u200B'),
+                  style: widget.style,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  textDirection: widget.forceDirection == 'ltr'
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
+                  textAlign: widget.alignment == 'left'
+                      ? TextAlign.left
+                      : widget.alignment == 'right'
+                          ? TextAlign.right
+                          : TextAlign.center,
+                ),
         ),
       ),
     );
