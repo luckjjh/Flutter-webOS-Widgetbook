@@ -18,7 +18,7 @@ class FlutterMarquee extends StatefulWidget {
     this.width = 390,
     this.isButton = false,
     this.maxWidth = double.infinity,
-    this.parentFocus,
+    this.parentFocus = true,
   });
 
   final String children;
@@ -34,7 +34,7 @@ class FlutterMarquee extends StatefulWidget {
   final double width;
   final bool isButton;
   final double maxWidth;
-  final bool? parentFocus;
+  final bool parentFocus;
   @override
   State<FlutterMarquee> createState() => _FlutterMarqueeState();
 }
@@ -42,16 +42,17 @@ class FlutterMarquee extends StatefulWidget {
 class _FlutterMarqueeState extends State<FlutterMarquee> {
   bool _fcshvred = false;
   bool _isMarqueeOn = false;
-  late bool _isOverflow;
   bool _renderMarqueeDelay = false;
-
+  Timer? _timer;
+  late bool _isOverflow;
   @override
   void initState() {
     super.initState();
   }
 
-  double getBlankSpace(String text, TextStyle style) {
-    return TextLayoutHelper.getTextSize(text: text, style: style).width / 2;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -65,14 +66,18 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
 
   Widget buildMarquee() {
     final textWidth = _calculateTextWidth(widget.children, widget.style);
-    if (widget.marqueeOn == 'render') {
-      Timer(
-          Duration(seconds: widget.marqueeDelay),
-          () => {
-                setState(() {
-                  _renderMarqueeDelay = widget.parentFocus ?? true;
-                }),
-              });
+    if (widget.parentFocus) {
+      _timer = Timer(const Duration(seconds: 1), () {
+        setState(() {
+          _renderMarqueeDelay = widget.parentFocus;
+        });
+      });
+    } else {
+      _timer?.cancel();
+      _timer = null;
+      setState(() {
+          _renderMarqueeDelay = widget.parentFocus;
+      });
     }
     return GestureDetector(
       child: FocusableActionDetector(
@@ -87,7 +92,7 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
           child: (widget.marqueeOn == 'render' &&
                       _isOverflow &&
                       _renderMarqueeDelay) ||
-                  (_isMarqueeOn && _isOverflow)
+                  (widget.marqueeOn == 'hover' && _isMarqueeOn && _isOverflow)
               ? Marquee(
                   text: widget.children,
                   velocity: widget.marqueeSpeed,
@@ -119,24 +124,30 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
   }
 
   void _handleHover(bool value) {
-    setState(() {
-      _fcshvred = value;
-    });
-    if (value) {
-      Timer(
-          Duration(seconds: widget.marqueeDelay),
-          () => {
-                setState(() {
-                  if (_fcshvred) {
-                    _isMarqueeOn = true;
-                  }
-                })
-              });
-    } else {
+    if (!widget.isButton){
       setState(() {
-        _isMarqueeOn = false;
+        _fcshvred = value;
       });
+      if (value) {
+        Timer(
+            Duration(seconds: widget.marqueeDelay),
+            () => {
+                  setState(() {
+                    if (_fcshvred) {
+                      _isMarqueeOn = true;
+                    }
+                  })
+                });
+      } else {
+        setState(() {
+          _isMarqueeOn = false;
+        });
+      }
     }
+  }
+
+  double getBlankSpace(String text, TextStyle style) {
+    return TextLayoutHelper.getTextSize(text: text, style: style).width / 2;
   }
 
   double _calculateTextWidth(String text, TextStyle style) {

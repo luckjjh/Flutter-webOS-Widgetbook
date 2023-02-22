@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import '../FocusableWidget/focusable_widget.dart';
 import '../Marquee/flutter_marquee.dart';
