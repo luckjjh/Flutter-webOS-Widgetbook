@@ -9,6 +9,8 @@ class FocusableWidget extends StatefulWidget {
     required this.child,
     this.onFocus,
     this.onClick,
+    this.disabled = false,
+    this.selected = false,
   });
 
   final bool animaterable;
@@ -16,6 +18,8 @@ class FocusableWidget extends StatefulWidget {
   final String backgroundOpacity;
   final Function? onFocus;
   final VoidCallback? onClick;
+  final bool disabled;
+  final bool selected;
   @override
   State<FocusableWidget> createState() => _FocusableWidgetWidgetState();
 }
@@ -108,11 +112,21 @@ class _FocusableWidgetWidgetState extends State<FocusableWidget>
   }
 
   Color getBaseBgColor() {
+    Color currentBgColor;
     if (widget.backgroundOpacity == 'opaque') {
-      return _fcshvred ? const Color(0xfbe6e6e6) : const Color(0xfb7d848c);
+      currentBgColor =_fcshvred
+          ? const Color(0xfbe6e6e6)
+          : widget.selected
+              ? const Color(0xfb3E454D)
+              : const Color(0xfb7d848c);
     } else {
-      return _fcshvred ? const Color(0xfbe6e6e6) : Colors.transparent;
+      currentBgColor = _fcshvred
+          ? const Color(0xfbe6e6e6)
+          : widget.selected
+              ? const Color(0xfb3E454D)
+              : Colors.transparent;
     }
+    return widget.disabled?currentBgColor.withOpacity(0.28):currentBgColor;
   }
 
   void _handleFocus(bool value) {
@@ -124,17 +138,23 @@ class _FocusableWidgetWidgetState extends State<FocusableWidget>
   }
 
   void _tapDown(TapDownDetails details) {
-    _controller.animateTo(1.02);
+    if (!widget.disabled) {
+      _controller.animateTo(1.02);
+    }
   }
 
   void _tapUp(TapUpDetails details) {
-    _controller.forward();
-    widget.onClick?.call();
+    if (!widget.disabled) {
+      _controller.forward();
+      widget.onClick?.call();
+    }
   }
 
   void enterPress() async {
-    await _controller.reverse();
-    await _controller.forward();
-    widget.onClick?.call();
+    if (!widget.disabled) {
+      await _controller.reverse();
+      await _controller.forward();
+      widget.onClick?.call();
+    }
   }
 }

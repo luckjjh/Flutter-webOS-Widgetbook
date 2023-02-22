@@ -56,6 +56,8 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
       ),
       child: FocusableWidget(
         onFocus: _onFocus,
+        selected: widget.selected,
+        disabled: widget.disabled,
         onClick: widget.onClick,
         backgroundOpacity: widget.backgroundOpacity,
         child: Padding(
@@ -81,7 +83,7 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
                         children: widget.children,
                         style: TextStyle(
                           fontSize: 35,
-                          color: _textColor,
+                          color: getTextColor(),
                           fontWeight: FontWeight.bold,
                         ),
                         marqueeOn: _marqueeState,
@@ -107,6 +109,15 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
     } else {
       return normalIconButtonWidth;
     }
+  }
+
+  Color getTextColor() {
+    Color currentTextColor;
+    currentTextColor =
+        _fcshvred ? const Color(0xfb4C5059) : const Color(0xfbe6e6e6);
+    return widget.disabled
+        ? currentTextColor.withOpacity(0.28)
+        : currentTextColor;
   }
 
   void _onFocus(bool value) {
