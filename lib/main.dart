@@ -59,7 +59,52 @@ class HotreloadWidgetbook extends StatelessWidget {
                           Option(label: 'small', value: 'small'),
                         ]),
                         tooltipText: context.knobs.text(label: 'tooltipText', initialValue: ''),
-                        tooltipType: context.knobs.text(label: 'tooltipType', initialValue: ''),
+                        tooltipType: context.knobs
+                            .options(label: 'tooltipType', options: const [
+                          Option(label: 'transparent', value: 'transparent'),
+                          Option(label: 'ballon', value: 'ballon'),
+                        ]),
+                      ),
+                  ),
+              ),
+              WidgetbookUseCase(
+                name: 'Icon Button',
+                builder: (context) => Padding(
+                  padding: const EdgeInsets.all(16),
+                  child:Button(
+                        backgroundOpacity: context.knobs
+                            .options(label: 'backgroundOpacity', options: const [
+                          Option(label: 'transparent', value: 'transparent'),
+                          Option(label: 'opaque', value: 'opaque'),
+                        ]),
+                        selected: context.knobs
+                            .boolean(label: 'selected', initialValue: false),
+                        children: context.knobs
+                            .text(label: 'children', initialValue: ''),
+                        color: context.knobs.text(label: 'color', initialValue: ''),
+                        disabled: context.knobs.boolean(label: 'disabled',initialValue: false),
+                        icon: context.knobs
+                          .options(label: 'icon', options: const [
+                            Option(label: 'home', value: Icons.home),
+                            Option(label: 'undefined', value: null),
+                            Option(label: 'add', value: Icons.add),
+                            Option(label: 'search', value: Icons.search),
+                            Option(label: 'Done', value: Icons.done),
+                            Option(label: 'radio unchecked', value: Icons.radio_button_unchecked),
+                            Option(label: 'radio checked', value: Icons.check_circle_outline_rounded),
+                          ]),
+                        minWidth: context.knobs.boolean(label: 'minWidth',initialValue: false),
+                        size:  context.knobs
+                            .options(label: 'size', options: const [
+                          Option(label: 'large', value: 'large'),
+                          Option(label: 'small', value: 'small'),
+                        ]),
+                        tooltipText: context.knobs.text(label: 'tooltipText', initialValue: ''),
+                        tooltipType: context.knobs
+                            .options(label: 'tooltipType', options: const [
+                          Option(label: 'transparent', value: 'transparent'),
+                          Option(label: 'ballon', value: 'ballon'),
+                        ]),
                       ),
                   ),
               ),
@@ -184,7 +229,7 @@ class HotreloadWidgetbook extends StatelessWidget {
       themes: [
         WidgetbookTheme(
           name: 'Dark',
-          data: ThemeData.dark(),
+          data: ThemeData(canvasColor: Colors.black),
         ),
       ],
       appInfo: AppInfo(name: 'Flutter Framework'),

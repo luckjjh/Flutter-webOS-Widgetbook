@@ -114,7 +114,7 @@ class _FocusableWidgetWidgetState extends State<FocusableWidget>
   Color getBaseBgColor() {
     Color currentBgColor;
     if (widget.backgroundOpacity == 'opaque') {
-      currentBgColor =_fcshvred
+      currentBgColor = _fcshvred
           ? const Color(0xfbe6e6e6)
           : widget.selected
               ? const Color(0xfb3E454D)
@@ -126,7 +126,7 @@ class _FocusableWidgetWidgetState extends State<FocusableWidget>
               ? const Color(0xfb3E454D)
               : Colors.transparent;
     }
-    return widget.disabled?currentBgColor.withOpacity(0.28):currentBgColor;
+    return widget.disabled ? currentBgColor.withOpacity(0.28) : currentBgColor;
   }
 
   void _handleFocus(bool value) {

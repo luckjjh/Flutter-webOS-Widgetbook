@@ -16,6 +16,7 @@ class FlutterMarquee extends StatefulWidget {
     this.marqueeSpeed = 60,
     this.scrollAxis = 'horizontal',
     this.width = 390,
+    this.height = 72,
     this.isButton = false,
     this.maxWidth = double.infinity,
     this.parentFocus = true,
@@ -32,6 +33,7 @@ class FlutterMarquee extends StatefulWidget {
   final double marqueeSpeed;
   final String scrollAxis;
   final double width;
+  final double height;
   final bool isButton;
   final double maxWidth;
   final bool parentFocus;
@@ -76,7 +78,7 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
       _timer?.cancel();
       _timer = null;
       setState(() {
-          _renderMarqueeDelay = widget.parentFocus;
+        _renderMarqueeDelay = widget.parentFocus;
       });
     }
     return GestureDetector(
@@ -86,7 +88,7 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
         child: Container(
           constraints: BoxConstraints(maxWidth: widget.maxWidth),
           width: widget.isButton ? textWidth : widget.width,
-          height: 66,
+          height: widget.height,
           color: Colors.transparent,
           alignment: Alignment.centerLeft,
           child: (widget.marqueeOn == 'render' &&
@@ -124,7 +126,7 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
   }
 
   void _handleHover(bool value) {
-    if (!widget.isButton){
+    if (!widget.isButton) {
       setState(() {
         _fcshvred = value;
       });
