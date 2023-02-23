@@ -60,7 +60,7 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
           maxWidth: 450,
           minWidth: widget.minWidth ? getSize()[0] : getSize()[1],
           minHeight: getSize()[1],
-        ), //54,220
+        ),
         child: FocusableWidget(
           onFocus: _onFocus,
           selected: widget.selected,

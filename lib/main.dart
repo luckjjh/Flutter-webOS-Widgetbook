@@ -108,6 +108,125 @@ class HotreloadWidgetbook extends StatelessWidget {
                       ),
                   ),
               ),
+              WidgetbookUseCase(
+                name: 'Many Button',
+                builder: (context) => Row(
+                  children: [
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child:Button(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ]),
             WidgetbookComponent(name: 'Focusable Widget', useCases: [
               WidgetbookUseCase(
