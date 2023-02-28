@@ -10,7 +10,7 @@ To get started with this project, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Run `flutter pub get` to install dependencies.
-3. Run `flutter build web` or `flutter-webos build ipk --device-profile {platform version} {build state}` build to generate the required files. Aviliable platform are o22, o20, o22n, k8lp. And you can use debug, release, profile to build state.
+3. Run `flutter build web` or `flutter-webos build ipk --device-profile {platform version} {build state}` build to generate the required files. Aviliable platform version are o22, o20, o22n, k8lp. And you can use debug, release, profile to build state.
 4. Connect your webOS device or emulator to your development machine.
 5. Run `flutter run` or install ipk file to TV to start the app on your device or emulator.
 # Usage
