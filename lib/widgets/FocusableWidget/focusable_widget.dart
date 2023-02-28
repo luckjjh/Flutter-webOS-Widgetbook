@@ -132,6 +132,7 @@ class _FocusableWidgetWidgetState extends State<FocusableWidget>
   void _handleFocus(bool value) {
     widget.onFocus?.call(value);
     setState(() {
+      _focused = value;
       _fcshvred = value;
       value ? _controller.forward() : _controller.reverse();
     });
