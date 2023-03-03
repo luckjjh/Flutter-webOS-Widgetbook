@@ -68,7 +68,7 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
           onClick: widget.onClick,
           backgroundOpacity: widget.backgroundOpacity,
           child: Padding(
-            padding: widget.minWidth&&widget.children=='' ? buttonPadding : iconPadding,
+            padding: widget.minWidth&&widget.children!='' ? buttonPadding : iconPadding,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: widget.icon == null || widget.children == ''
