@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterwidgetbook/widgets/Button/new_buttton.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'widgets/FocusableWidget/focusable_widget.dart';
 import 'widgets/Marquee/flutter_marquee.dart';
@@ -30,83 +31,139 @@ class HotreloadWidgetbook extends StatelessWidget {
                 name: 'default',
                 builder: (context) => Padding(
                   padding: const EdgeInsets.all(16),
-                  child:Button(
-                        backgroundOpacity: context.knobs
-                            .options(label: 'backgroundOpacity', options: const [
-                          Option(label: 'opaque', value: 'opaque'),
-                          Option(label: 'transparent', value: 'transparent'),
-                        ]),
-                        selected: context.knobs
-                            .boolean(label: 'selected', initialValue: false),
-                        children: context.knobs
-                            .text(label: 'children', initialValue: 'click me'),
-                        color: context.knobs.text(label: 'color', initialValue: ''),
-                        disabled: context.knobs.boolean(label: 'disabled',initialValue: false),
-                        icon: context.knobs
-                          .options(label: 'icon', options: const [
-                            Option(label: 'undefined', value: null),
-                            Option(label: 'add', value: Icons.add),
-                            Option(label: 'search', value: Icons.search),
-                            Option(label: 'home', value: Icons.home),
-                            Option(label: 'Done', value: Icons.done),
-                            Option(label: 'radio unchecked', value: Icons.radio_button_unchecked),
-                            Option(label: 'radio checked', value: Icons.check_circle_outline_rounded),
-                          ]),
-                        minWidth: context.knobs.boolean(label: 'minWidth',initialValue: true),
-                        size:  context.knobs
-                            .options(label: 'size', options: const [
-                          Option(label: 'large', value: 'large'),
-                          Option(label: 'small', value: 'small'),
-                        ]),
-                        tooltipText: context.knobs.text(label: 'tooltipText', initialValue: ''),
-                        tooltipType: context.knobs
-                            .options(label: 'tooltipType', options: const [
-                          Option(label: 'transparent', value: 'transparent'),
-                          Option(label: 'ballon', value: 'ballon'),
-                        ]),
-                      ),
+                  child: Button(
+                    backgroundOpacity: context.knobs
+                        .options(label: 'backgroundOpacity', options: const [
+                      Option(label: 'opaque', value: 'opaque'),
+                      Option(label: 'transparent', value: 'transparent'),
+                    ]),
+                    selected: context.knobs
+                        .boolean(label: 'selected', initialValue: false),
+                    children: context.knobs
+                        .text(label: 'children', initialValue: 'click me'),
+                    color: context.knobs.text(label: 'color', initialValue: ''),
+                    disabled: context.knobs
+                        .boolean(label: 'disabled', initialValue: false),
+                    icon: context.knobs.options(label: 'icon', options: const [
+                      Option(label: 'undefined', value: null),
+                      Option(label: 'add', value: Icons.add),
+                      Option(label: 'search', value: Icons.search),
+                      Option(label: 'home', value: Icons.home),
+                      Option(label: 'Done', value: Icons.done),
+                      Option(
+                          label: 'radio unchecked',
+                          value: Icons.radio_button_unchecked),
+                      Option(
+                          label: 'radio checked',
+                          value: Icons.check_circle_outline_rounded),
+                    ]),
+                    minWidth: context.knobs
+                        .boolean(label: 'minWidth', initialValue: true),
+                    size: context.knobs.options(label: 'size', options: const [
+                      Option(label: 'large', value: 'large'),
+                      Option(label: 'small', value: 'small'),
+                    ]),
+                    tooltipText: context.knobs
+                        .text(label: 'tooltipText', initialValue: ''),
+                    tooltipType: context.knobs
+                        .options(label: 'tooltipType', options: const [
+                      Option(label: 'transparent', value: 'transparent'),
+                      Option(label: 'ballon', value: 'ballon'),
+                    ]),
                   ),
+                ),
+              ),
+              WidgetbookUseCase(
+                name: 'mixin button',
+                builder: (context) => Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: NewButton(
+                    backgroundOpacity: context.knobs
+                        .options(label: 'backgroundOpacity', options: const [
+                      Option(label: 'opaque', value: 'opaque'),
+                      Option(label: 'transparent', value: 'transparent'),
+                    ]),
+                    selected: context.knobs
+                        .boolean(label: 'selected', initialValue: false),
+                    children: context.knobs
+                        .text(label: 'children', initialValue: 'click me'),
+                    color: context.knobs.text(label: 'color', initialValue: ''),
+                    disabled: context.knobs
+                        .boolean(label: 'disabled', initialValue: false),
+                    icon: context.knobs.options(label: 'icon', options: const [
+                      Option(label: 'undefined', value: null),
+                      Option(label: 'add', value: Icons.add),
+                      Option(label: 'search', value: Icons.search),
+                      Option(label: 'home', value: Icons.home),
+                      Option(label: 'Done', value: Icons.done),
+                      Option(
+                          label: 'radio unchecked',
+                          value: Icons.radio_button_unchecked),
+                      Option(
+                          label: 'radio checked',
+                          value: Icons.check_circle_outline_rounded),
+                    ]),
+                    minWidth: context.knobs
+                        .boolean(label: 'minWidth', initialValue: true),
+                    size: context.knobs.options(label: 'size', options: const [
+                      Option(label: 'large', value: 'large'),
+                      Option(label: 'small', value: 'small'),
+                    ]),
+                    tooltipText: context.knobs
+                        .text(label: 'tooltipText', initialValue: ''),
+                    tooltipType: context.knobs
+                        .options(label: 'tooltipType', options: const [
+                      Option(label: 'transparent', value: 'transparent'),
+                      Option(label: 'ballon', value: 'ballon'),
+                    ]),
+                  ),
+                ),
               ),
               WidgetbookUseCase(
                 name: 'Icon Button',
                 builder: (context) => Padding(
                   padding: const EdgeInsets.all(16),
-                  child:Button(
-                        backgroundOpacity: context.knobs
-                            .options(label: 'backgroundOpacity', options: const [
-                          Option(label: 'transparent', value: 'transparent'),
-                          Option(label: 'opaque', value: 'opaque'),
-                        ]),
-                        selected: context.knobs
-                            .boolean(label: 'selected', initialValue: false),
-                        children: context.knobs
-                            .text(label: 'children', initialValue: ''),
-                        color: context.knobs.text(label: 'color', initialValue: ''),
-                        disabled: context.knobs.boolean(label: 'disabled',initialValue: false),
-                        icon: context.knobs
-                          .options(label: 'icon', options: const [
-                            Option(label: 'home', value: Icons.home),
-                            Option(label: 'undefined', value: null),
-                            Option(label: 'add', value: Icons.add),
-                            Option(label: 'search', value: Icons.search),
-                            Option(label: 'Done', value: Icons.done),
-                            Option(label: 'radio unchecked', value: Icons.radio_button_unchecked),
-                            Option(label: 'radio checked', value: Icons.check_circle_outline_rounded),
-                          ]),
-                        minWidth: context.knobs.boolean(label: 'minWidth',initialValue: false),
-                        size:  context.knobs
-                            .options(label: 'size', options: const [
-                          Option(label: 'large', value: 'large'),
-                          Option(label: 'small', value: 'small'),
-                        ]),
-                        tooltipText: context.knobs.text(label: 'tooltipText', initialValue: ''),
-                        tooltipType: context.knobs
-                            .options(label: 'tooltipType', options: const [
-                          Option(label: 'transparent', value: 'transparent'),
-                          Option(label: 'ballon', value: 'ballon'),
-                        ]),
-                      ),
+                  child: Button(
+                    backgroundOpacity: context.knobs
+                        .options(label: 'backgroundOpacity', options: const [
+                      Option(label: 'transparent', value: 'transparent'),
+                      Option(label: 'opaque', value: 'opaque'),
+                    ]),
+                    selected: context.knobs
+                        .boolean(label: 'selected', initialValue: false),
+                    children:
+                        context.knobs.text(label: 'children', initialValue: ''),
+                    color: context.knobs.text(label: 'color', initialValue: ''),
+                    disabled: context.knobs
+                        .boolean(label: 'disabled', initialValue: false),
+                    icon: context.knobs.options(label: 'icon', options: const [
+                      Option(label: 'home', value: Icons.home),
+                      Option(label: 'undefined', value: null),
+                      Option(label: 'add', value: Icons.add),
+                      Option(label: 'search', value: Icons.search),
+                      Option(label: 'Done', value: Icons.done),
+                      Option(
+                          label: 'radio unchecked',
+                          value: Icons.radio_button_unchecked),
+                      Option(
+                          label: 'radio checked',
+                          value: Icons.check_circle_outline_rounded),
+                    ]),
+                    minWidth: context.knobs
+                        .boolean(label: 'minWidth', initialValue: false),
+                    size: context.knobs.options(label: 'size', options: const [
+                      Option(label: 'large', value: 'large'),
+                      Option(label: 'small', value: 'small'),
+                    ]),
+                    tooltipText: context.knobs
+                        .text(label: 'tooltipText', initialValue: ''),
+                    tooltipType: context.knobs
+                        .options(label: 'tooltipType', options: const [
+                      Option(label: 'transparent', value: 'transparent'),
+                      Option(label: 'ballon', value: 'ballon'),
+                    ]),
                   ),
+                ),
               ),
               WidgetbookUseCase(
                 name: 'Many Button',
@@ -116,53 +173,25 @@ class HotreloadWidgetbook extends StatelessWidget {
                       children: const [
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
-                            children: 'click me',
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child:Button(
-                            children: 'click me',
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child:Button(
-                            children: 'click me',
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child:Button(
-                            children: 'click me',
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
@@ -172,25 +201,25 @@ class HotreloadWidgetbook extends StatelessWidget {
                       children: const [
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
@@ -200,25 +229,53 @@ class HotreloadWidgetbook extends StatelessWidget {
                       children: const [
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
                             children: 'click me',
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(16),
-                          child:Button(
+                          child: Button(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Button(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
                             children: 'click me',
                           ),
                         ),
@@ -227,6 +284,125 @@ class HotreloadWidgetbook extends StatelessWidget {
                   ],
                 ),
               ),
+              WidgetbookUseCase(
+                name: 'New Button',
+                builder: (context) => Row(
+                  children: [
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: NewButton(
+                            children: 'click me',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
             ]),
             WidgetbookComponent(name: 'Focusable Widget', useCases: [
               WidgetbookUseCase(
@@ -336,11 +512,10 @@ class HotreloadWidgetbook extends StatelessWidget {
             ]),
             WidgetbookComponent(name: 'Icon', useCases: [
               WidgetbookUseCase(
-                name: 'default',
-                builder: (context) => const Icon(
-                    Icons.add,
-                  )
-                ),
+                  name: 'default',
+                  builder: (context) => const Icon(
+                        Icons.add,
+                      )),
             ]),
           ],
         )
