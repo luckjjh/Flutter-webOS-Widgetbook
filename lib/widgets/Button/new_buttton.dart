@@ -113,7 +113,7 @@ class _NewButtonState extends State<NewButton>
           minHeight: getSize()[1],
         ),
         child: Padding(
-          padding: widget.minWidth && widget.children != ''
+          padding: widget.minWidth || widget.children != ''
               ? buttonPadding
               : iconPadding,
           child: Column(
