@@ -68,6 +68,10 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
 
   Widget buildMarquee() {
     final textWidth = _calculateTextWidth(widget.children, widget.style);
+    if (_timer?.isActive ?? false) {
+      _timer?.cancel();
+      _timer = null;
+    }
     if (widget.parentFocus) {
       _timer = Timer(const Duration(seconds: 1), () {
         setState(() {
@@ -81,6 +85,7 @@ class _FlutterMarqueeState extends State<FlutterMarquee> {
         _renderMarqueeDelay = widget.parentFocus;
       });
     }
+
     return GestureDetector(
       child: FocusableActionDetector(
         onShowHoverHighlight: _handleHover,
