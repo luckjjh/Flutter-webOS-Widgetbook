@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-mixin Focusable<T extends StatefulWidget> on State<T>{
+mixin Focusable<T extends StatefulWidget> on State<T> {
   late FocusNode node;
-  bool _focused = false;
-  bool fcshvred = false;
+  bool focused = false;
   late FocusAttachment nodeAttachment;
-  late AnimationController controller;
   @override
   void initState() {
     node = FocusNode();
@@ -22,10 +20,24 @@ mixin Focusable<T extends StatefulWidget> on State<T>{
     super.dispose();
   }
 
+  Widget buildFocusableWidget(Widget child) {
+    nodeAttachment.reparent();
+    return GestureDetector(
+      onTapDown: tapDown,
+      onTapUp: tapUp,
+      child: FocusableActionDetector(
+        focusNode: node,
+        onShowFocusHighlight: handleFocus,
+        onShowHoverHighlight: handleHover,
+        child: child,
+      ),
+    );
+  }
+
   void _handleFocusChange() {
-    if (node.hasFocus != _focused) {
+    if (node.hasFocus != focused) {
       setState(() {
-        _focused = node.hasFocus;
+        focused = node.hasFocus;
       });
     }
   }
@@ -41,22 +53,19 @@ mixin Focusable<T extends StatefulWidget> on State<T>{
   }
 
   void handleFocus(bool value) {
-    // node.requestFocus();
-    _focused = value;
-    fcshvred = value;
-    value ? controller.forward() : controller.reverse();
+    focused = value;
   }
 
-  void tapDown(TapDownDetails details) {
-    controller.animateTo(1.02);
+  void handleHover(bool value) {
+    focused = value;
+    node.requestFocus();
   }
 
-  void tapUp(TapUpDetails details) {
-    controller.forward();
-  }
+  void tapDown(TapDownDetails details) {}
+
+  void tapUp(TapUpDetails details) {}
 
   void enterPress() async {
-    await controller.reverse();
-    await controller.forward();
+    handleHover(true);
   }
 }
